@@ -4,6 +4,10 @@ plugins {
 
 rootProject.name = "kitsch"
 
+include(
+  "kitsch-kt",
+)
+
 dependencyResolutionManagement {
   versionCatalogs {
     create("libs") {
@@ -26,22 +30,30 @@ dependencyResolutionManagement {
 
       bundle("kotlinx", listOf("kotlinx.serialization", "kotlinx.coroutines"))
 
-      library("ktor.server.cio", "io.ktor", "ktor-server-cio").withoutVersion()
-      library("ktor.server.core", "io.ktor", "ktor-server-core").withoutVersion()
-      library("ktor.server.resources", "io.ktor", "ktor-server-resources").withoutVersion()
-      library("ktor.server.negotiation", "io.ktor", "ktor-server-content-negotiation").withoutVersion()
-      library("ktor.server.logging", "io.ktor", "ktor-server-call-logging").withoutVersion()
+      library("ktor.client.cio", "io.ktor", "ktor-client-cio").withoutVersion()
+      library("ktor.client.core", "io.ktor", "ktor-client-core").withoutVersion()
+      library("ktor.client.resources", "io.ktor", "ktor-client-resources").withoutVersion()
+      library("ktor.client.negotiation", "io.ktor", "ktor-client-content-negotiation").withoutVersion()
+      library("ktor.client.auth", "io.ktor", "ktor-client-auth").withoutVersion()
 
       bundle(
         "ktor",
         listOf(
-          "ktor.server.core",
-          "ktor.server.cio",
-          "ktor.server.resources",
-          "ktor.server.negotiation",
-          "ktor.server.logging",
+          "ktor.client.core",
+          "ktor.client.cio",
+          "ktor.client.resources",
+          "ktor.client.negotiation",
+          "ktor.client.auth",
         )
       )
+
+      version("logback", "1.4.11")
+      version("kotlin-logging", "5.1.0")
+
+      library("logging.logback", "ch.qos.logback", "logback-classic").versionRef("logback")
+      library("logging.kotlin", "io.github.oshai", "kotlin-logging-jvm").versionRef("kotlin-logging")
+
+      bundle("logging", listOf("logging.logback", "logging.kotlin"))
     }
   }
 }
